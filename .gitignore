@@ -1,0 +1,4 @@
+node_modules/
+package-lock.json
+legal_bert_model/
+legal_bert_tokenizer/

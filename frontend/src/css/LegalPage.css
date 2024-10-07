@@ -1,0 +1,576 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f4f4f4;
+}
+.head-logo{
+  margin-left: 20px;
+  width: auto; /* Adjust size as needed */
+  height: auto;
+  /* background-image: url('../Assets/head logo.png');   */
+  /* background-color: #34343480; */
+  /* border:2px solid  #ffdfb9; */
+  
+}
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.webName{
+  display: flex;
+  margin-right: 480px;
+
+  width:auto;
+    height:max-content;
+    text-align: center;
+    font-size:30px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav a {
+  /* margin: 0 15px; */
+  text-decoration: none;
+  color: #000;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #f4f4f4;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.buttons {
+  display: flex;
+}
+
+.button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.white-button {
+  background-color: #fff;
+  border: 1px solid #000;
+  color: #000;
+}
+
+.black-button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+}
+
+.main-content {
+  position: relative;
+  background-image: url('../Assets/spi.png');  
+  background-size: cover;  
+  background-position: center;  
+  background-repeat: no-repeat;  
+  padding: 50px 20px;
+  text-align: center;
+  color: white; 
+  min-height: 400px; /* Ensure the section has enough height */
+}
+
+/* Overlay for transparency */
+.main-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); 
+  z-index: 1;
+}
+
+  .content-box {
+    position: relative; 
+    z-index: 2; 
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 20;
+    background-color: rgba(255, 255, 255, 0.1); 
+    padding: 20px;
+    padding-top: 80px;
+    border-radius: 10px;
+    height:max-content
+  }
+
+.main-content h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  margin-top: 0; /* Remove top margin */
+  padding-top: 20px; /* Add padding to keep spacing consistent */
+}
+
+.main-content p {
+  font-size: 18px;
+  margin-bottom: 40px;
+}
+
+.hero-image {
+  width: 100%; 
+  height: auto; 
+  opacity: 0.7; 
+}
+
+/* New Section Styles */
+.info-section {
+  padding: 40px 20px;
+  text-align: left;
+  background-color: #f4f4f4;
+  margin-top: 20px; /* Add margin to create space between sections */
+}
+
+.info-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.info-section h2 {
+  margin-bottom: 5px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.info-section h3 {
+  margin-top: 0;
+  font-size: 2em;
+  color: #000;
+}
+
+.info-section p {
+  margin-bottom: 20px;
+  font-size: 1em;
+  color: #555;
+}
+
+.info-boxes {
+  margin-left:265px;
+  display: flex;
+  justify-content:center;
+  text-align: center;
+  max-width: 700px;
+}
+
+.info-box {
+  flex: 1;
+  margin-right: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  max-width: 500px;
+  
+}
+
+.info-box h4 {
+  margin-top: 0;
+  font-size: 1.5em;
+  color: #000;
+}
+
+.info-box p {
+  font-size: 1em;
+  color: #555;
+}
+
+.cta-buttons {
+  margin-top: 20px;
+}
+
+.cta-buttons .button {
+  margin-right: 10px;
+
+}
+
+.learn-more1 {
+  background-color: #555;
+  margin-left:540px;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+}
+
+.learn-more1:hover {
+  background-color: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+/* Styling for the Learn More button */
+.learn-more {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+}
+
+.learn-more:hover {
+  background-color: #fff;
+  color: #000;
+  border-color: #000;
+}
+.sign-up {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+}
+
+.sign-up:hover {
+  background-color: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+/* Container to center the content */
+.center-container {
+  max-width: 1200px; /* Adjust width as needed */
+  margin: 40px auto; /* Center the container with margins from all sides */
+  padding: 20px;
+  background-color: #fff; /* Background color for the container */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for the container */
+}
+
+/* Ensure the content inside the container is aligned properly */
+.center-container h2,
+.center-container h3,
+.center-container p {
+  margin: 0;
+  padding-bottom: 20px;
+  text-align: center; /* Center-align text */
+}
+
+.team-section {
+  padding: 40px 20px;
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+.team-section h2 {
+  font-size: 2em;
+  color: #a28834; /* Golden text color */
+  margin-bottom: 20px;
+  margin-top: 0; /* Remove any top margin if needed */
+}
+
+.team-container {
+  display: flex;
+  justify-content: center; /* Center the team members horizontally */
+  flex-wrap: wrap;
+  gap: 20px; /* Add spacing between team members */
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #000;
+  padding: 20px; /* Add padding around the container for better spacing */
+  border-radius: 10px; /* Optional: rounded corners for the container */
+}
+
+.team-member {
+  position: relative;
+  width: 220px;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  background-color: #000; /* Black background for the box */
+  border: 2px solid #a28834; /* Golden border */
+}
+
+.team-member:hover {
+  border-color: #a28834; /* Change border color on hover */
+  background-color: #000000; /* Darker black when hovered */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.team-image {
+  width: 100%;
+  height: 300px;
+  border-bottom: 2px solid #a28834; 
+  display: block;
+}
+
+.team-info {
+  padding: 10px;
+  background-color: #050505;
+}
+
+.team-info h4 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #a28834;
+  }
+
+.team-info p {
+  margin: 5px 0 0;
+  font-size: 1em;
+  color: #a28834;
+}
+.prediction-section {
+  background-color: #333; /* Dark gray background */
+  color: #fff; /* White text */
+  padding: 40px;
+  text-align: center;
+}
+.judgeb{
+  background-color: black;
+  color: goldenrod;
+  border: 1px solid goldenrod;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+  border-radius: 20px;
+}
+.judgeb:hover{
+  background-color: goldenrod;
+  color: black;
+  border-color: #000;
+}
+
+/* pre */
+.prediction-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.headline {
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.subheading {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.input-container {
+  margin-bottom: 20px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.predict-button,
+.learn-more-button {
+  background-color: #fff; /* White background for buttons */
+  color: #333; /* Dark gray text for buttons */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.predict-button:hover {
+  background-color: #f0f0f0;
+  color: #000;
+}
+
+.learn-more-button:hover {
+  background-color: #f0f0f0;
+  color: #000;
+}
+
+/* contact */
+/* CitationsPage.css or a separate CSS file */
+
+.contacthead{
+  margin: 0;
+  padding-bottom: 20px;
+  text-align: center; /* Center-align text */
+  font-size: 2em;
+  color: #000000; /* Golden text color */
+  margin-bottom: 10px;
+  margin-top: 0; /* Remove any top margin if needed */
+}/* CitationsPage.css or a separate CSS file */
+
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  grid-template-rows: repeat(2, 1fr); /* 2 rows */
+  gap: 20px; /* Space between items */
+  background-color: #f9f9f9; /* Light, neutral background color */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-quadrant {
+  background-color: #ffffff; /* White background for each quadrant */
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  width: 500px;
+  margin-left: 100px;
+}
+
+.contact-icon {
+  font-size: 40px;
+  color: #cba05b; /* Gold color for icons */
+  margin-bottom: 10px;
+}
+
+.contact-text h2 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000; /* Black color for headings */
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.contact-text p {
+  font-size: 14px;
+  color: #333333; /* Dark gray for text */
+  margin: 0;
+}
+
+.contact-quadrant:nth-child(odd) .contact-text p {
+  color: #666666; /* Slightly lighter gray for secondary text */
+}
+
+.fas {
+  /* Make sure to include FontAwesome for icons */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+/* Footer styling */
+/* Footer styling */
+.footer {
+  background-color: #6f4f28; /* Earthy brown color */
+  padding: 20px;
+  color: #ffffff; /* White text color */
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px; /* Optional, to constrain the width */
+  margin: 0 auto;
+}
+
+.footer-logo {
+  margin-left: 100px;
+  width: auto; /* Adjust size as needed */
+  height: auto;
+}
+
+.footer-text {
+  margin-right: 100px;
+  text-align: center;
+} 
+
+.footer-text h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.footer-text .slogan {
+  color: white;
+  font-size: 18px;
+  margin: 0;
+  font-family: 'Noto Sans Devanagari', sans-serif; /* Ensure proper font rendering for the Sanskrit script */
+}
+
+.footer-bottom {
+  color: white;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.footer-bottom p {
+  color: white;
+  margin: 5px 0;
+  font-size: 14px;
+}
