@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
-
 import os
 import pickle
 from transformers import AutoTokenizer, AutoModel
@@ -8,21 +7,35 @@ from sklearn.metrics.pairwise import cosine_similarity
 import torch
 import pdfplumber
 import re
+from transformers import pipeline
+import warnings
+
+# Suppress FutureWarnings
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 app = Flask(__name__)
 CORS(app)
 
+# Load the tokenizer and model
+tokenizer = AutoTokenizer.from_pretrained('legal_bert_tokenizer')
+model = AutoModel.from_pretrained('legal_bert_model')
+
 with open('content_cache.pkl', 'rb') as f:
     content_cache = pickle.load(f)
 
 with open('embeddings_cache.pkl', 'rb') as f:
     embeddings_cache = pickle.load(f)
-    
-# Load the tokenizer and model
-tokenizer = AutoTokenizer.from_pretrained('legal_bert_tokenizer')
-model = AutoModel.from_pretrained('legal_bert_model')
+  
+summarizer = pipeline(
+    "summarization", 
+    model="sshleifer/distilbart-cnn-12-6"
+)
+
+def get_summary(text):
+    summary = summarizer(text, max_length=700, min_length=250, do_sample=False, truncation=True,clean_up_tokenization_spaces=True)
+    return summary
 
 # embedding generation function
 def get_legal_bert_embeddings(text):
@@ -103,7 +116,6 @@ def compare_with_reference(reference_pdf_embeddings):
     return similarities
 
 
-
 def datermineSimilarity(reference_pdf_path):
     section,embeddings = process_pdf(reference_pdf_path)
     reference_embeddings = embeddings
@@ -131,8 +143,6 @@ def datermineSimilarity(reference_pdf_path):
     # for pdf_name, total_similarity in total_similarity_dict.items():
     #     print(f"PDF: {pdf_name} - Total Similarity: {round(total_similarity/3,2)}")
     return total_similarity_dict
-# reference_pdf_path = "/kaggle/input/judgement-dataset/sankari_prasad.pdf"
-# printSimilarity(reference_pdf_path)
 
 
 def find_top_citations(reference_pdf_path):
@@ -144,16 +154,10 @@ def find_top_citations(reference_pdf_path):
     top_ranked_citations = []
     # Retrieve the content of the top 5 judgments from the judgment cache
     for rank, (pdf_name, total_similarity) in enumerate(top_5_judgments, 1):
-        # print(f"\nTop {rank} Judgment: {pdf_name}")
-        # print(f"Total Similarity Score: {round(total_similarity/3, 3)}")
-        
-        # Load and print the split sections of the judgment from the cache
         judgment_content = content_cache[pdf_name]
         top_ranked_citations.append(judgment_content)
         
     return top_ranked_citations
-
-
 
 
 # Define a route for similarity search
@@ -165,15 +169,20 @@ def search():
     print("Requested sent")
     return jsonify(similar_pdfs)
 
+
+@app.route('/judgment-summary', methods=['POST'])
+def find_summary():
+    print("Request arrived summary")
+    data = request.json
+    text = data.get('text')
+    summary = get_summary(text)
+    print("Request sent summary")
+    return jsonify(summary[0]['summary_text'])
+
 # Define a route to serve the application
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
-
-
-
-
+    app.run(debug=True,port=5000)

@@ -10,20 +10,15 @@ body, html {
   height: 100vh;
 }
 
-.header {
+.header_home {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background-color: #f4f4f4;
+  padding:0.2rem 0px;
 }
-.head-logo{
-  margin-left: 20px;
-  width: auto; /* Adjust size as needed */
-  height: auto;
-  /* background-image: url('../Assets/head logo.png');   */
-  /* background-color: #34343480; */
-  /* border:2px solid  #ffdfb9; */
-  
+.head_logo{
+  padding:0.2rem;
+  margin:0rem 3rem;
 }
 .logo {
   font-size: 24px;
@@ -33,62 +28,26 @@ body, html {
 .webName{
   display: flex;
   margin-right: 480px;
-
   width:auto;
-    height:max-content;
-    text-align: center;
-    font-size:30px;
-    font-weight: 600;
-    font-family: Arial, Helvetica, sans-serif;
-    color: aliceblue;
-
+  height:max-content;
+  text-align: center;
+  font-size:30px;
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
+  color:aliceblue;
 }
 
-.nav {
+.nav_home {
   display: flex;
   align-items: center;
 }
 
-.nav a {
-  /* margin: 0 15px; */
+.nav_home a {
+  width:auto;
   text-decoration: none;
   color: #000;
 }
 
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropbtn {
-  background-color: #f4f4f4;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {
-  background-color: #f1f1f1;
-}
 
 .buttons {
   display: flex;
@@ -122,10 +81,9 @@ body, html {
   padding: 50px 20px;
   text-align: center;
   color: white; 
-  min-height: 400px; /* Ensure the section has enough height */
+  min-height: 400px;
 }
 
-/* Overlay for transparency */
 .main-content::before {
   content: '';
   position: absolute;
@@ -153,8 +111,8 @@ body, html {
 .main-content h1 {
   font-size: 36px;
   margin-bottom: 20px;
-  margin-top: 0; /* Remove top margin */
-  padding-top: 20px; /* Add padding to keep spacing consistent */
+  margin-top: 0; 
+  padding-top: 20px; 
 }
 
 .main-content p {
@@ -573,4 +531,8 @@ body, html {
   color: white;
   margin: 5px 0;
   font-size: 14px;
+}
+
+.news{
+  padding:0.3rem 2rem;
 }

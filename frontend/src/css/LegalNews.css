@@ -17,11 +17,13 @@
     font-size: 1.25rem;
     margin-bottom: 10px;
     color: #333;
+    text-align: justify;
   }
   
   .news-card p {
     font-size: 1rem;
     color: #555;
+    text-align: justify;
   }
   
   .view-more {
@@ -51,6 +53,7 @@ a {
   font-weight: bold;
   color: #1e90ff;
   text-decoration: none;
+  padding:1rem;
 }
 
 p {

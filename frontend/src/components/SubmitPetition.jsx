@@ -1,65 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import '../css/CitationsPage.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
-const CitationsPage = () => {
+import "../css/SubmitPetition.css";
+
+export default function SubmitPetition() {
   const [isInputVisible, setIsInputVisible] = useState(false);
-  const [citationInput, setCitationInput] = useState('');
+  const [citationInput, setCitationInput] = useState("");
   const [file, setFile] = useState(null);
   const [fileAttached, setFileAttached] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // Track loading state
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   let messageInterval;
 
   const handleInputClick = () => {
-    console.log('Input button clicked');
+    console.log("Input button clicked");
     setIsInputVisible(true);
   };
 
   const handleInputChange = (event) => {
-    console.log('Citation input changed:', event.target.value);
+    console.log("Citation input changed:", event.target.value);
     setCitationInput(event.target.value);
   };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log('File selected:', file.name);
+      console.log("File selected:", file.name);
       setFile(file);
       setFileAttached(true);
     } else {
-      console.log('No file selected');
+      console.log("No file selected");
       setFile(null);
       setFileAttached(false);
     }
   };
 
   const handleSubmit = async () => {
-    setIsLoading(true); // Set loading state
+    setIsLoading(true);
     activeLoader();
     if (file) {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
       try {
-        const response = await fetch('http://localhost:5000/process-pdf', {
-          method: 'POST',
+        const response = await fetch("http://localhost:5000/process-pdf", {
+          method: "POST",
           body: formData,
         });
-        
+
         if (!response.ok) {
-          throw new Error('Network response was not ok.');
+          throw new Error("Network response was not ok.");
         }
 
         const data = await response.json();
-        navigate('/ResultsPage', { state: { results: data } });
+        navigate("/ResultsPage", { state: { results: data } });
       } catch (error) {
-        console.error('Error uploading file:', error);
+        console.error("Error uploading file:", error);
       } finally {
-        setIsLoading(false); // Stop the loader when navigation happens
+        setIsLoading(false);
       }
     } else {
-      console.log('No file selected for upload');
-      setIsLoading(false); // Stop the loader in case of no file
+      console.log("No file selected for upload");
+      setIsLoading(false);
     }
   };
 
@@ -85,8 +86,8 @@ const CitationsPage = () => {
   };
 
   const activeLoader = () => {
-    const loader = document.getElementById('loader_div');
-    loader.classList.add('loader_active');
+    const loader = document.getElementById("loader_div");
+    loader.classList.add("loader_active");
     rotateMessages();
   };
 
@@ -94,18 +95,16 @@ const CitationsPage = () => {
     if (isLoading) {
       messageInterval = setInterval(rotateMessages, 5000);
     }
-    
-    // Cleanup function to stop the interval when component unmounts
+
     return () => {
       clearInterval(messageInterval);
-      setIsLoading(false); // Reset loading state when leaving the page
+      setIsLoading(false);
     };
   }, [isLoading]);
 
   return (
     <div className="citations-container">
-      {/* Header Section */}
-      <header className="header">
+      <header className="header_submit_file">
         <Link to="/" className="logo-link">
           <img
             src="https://pbs.twimg.com/media/EjVuypHXcAExU3E.jpg:large"
@@ -113,18 +112,10 @@ const CitationsPage = () => {
             className="Logo"
           />
         </Link>
-        <nav className="nav2">
-          <a href="/">Legal News</a>
-          <a href="/">Judge Panel</a>
-          <a href="/">Citation Predictions</a>
-          <div className="dropdown">
-            <button className="dropbtn">More</button>
-            <div className="dropdown-content">
-              <a href="/">Option 1</a>
-              <a href="/">Option 2</a>
-              <a href="/">Option 3</a>
-            </div>
-          </div>
+        <nav className="nav2_submit_file">
+          <Link to="/legalnews">Legal News</Link>
+          <Link to="/">Judge Panel</Link>
+          <Link to="/submit-petition">Citation Prediction</Link>
         </nav>
       </header>
 
@@ -134,12 +125,13 @@ const CitationsPage = () => {
           <section className="importance-section">
             <h1>The Importance of Accurate Citations</h1>
             <p>
-              Accurate citations are crucial in the legal field as they ensure that
-              all legal arguments and documents are well-supported by authoritative
-              sources. Proper citations provide credibility to legal arguments,
-              allow for the verification of facts, and facilitate further research.
-              They play a critical role in maintaining the integrity and reliability
-              of legal proceedings and documentation.
+              Accurate citations are crucial in the legal field as they ensure
+              that all legal arguments and documents are well-supported by
+              authoritative sources. Proper citations provide credibility to
+              legal arguments, allow for the verification of facts, and
+              facilitate further research. They play a critical role in
+              maintaining the integrity and reliability of legal proceedings and
+              documentation.
             </p>
           </section>
           <section className="input-section">
@@ -157,11 +149,15 @@ const CitationsPage = () => {
                 />
                 <input
                   type="file"
-                  accept="application/pdf" // Added to accept only PDF files
+                  accept="application/pdf"
                   onChange={handleFileChange}
                 />
-                <div className={`file-status ${fileAttached ? 'attached' : 'not-attached'}`}>
-                  {fileAttached ? 'File attached' : 'No file attached'}
+                <div
+                  className={`file-status ${
+                    fileAttached ? "attached" : "not-attached"
+                  }`}
+                >
+                  {fileAttached ? "File attached" : "No file attached"}
                 </div>
                 <button className="submit-button" onClick={handleSubmit}>
                   Get Citations
@@ -174,10 +170,13 @@ const CitationsPage = () => {
         </main>
       </div>
 
-      {/* Footer Section */}
       <footer className="footer">
         <div className="footer-content">
-          <img src="https://cdn.s3waas.gov.in/s3ec0490f1f4972d133619a60c30f3559e/uploads/2024/01/2024012288.svg" alt="Supreme Court Emblem" className="footer-logo" />
+          <img
+            src="https://cdn.s3waas.gov.in/s3ec0490f1f4972d133619a60c30f3559e/uploads/2024/01/2024012288.svg"
+            alt="Supreme Court Emblem"
+            className="footer-logo"
+          />
           <div className="footer-text">
             <h1>SUPREME COURT OF INDIA</h1>
             <p className="slogan">|| यतो धर्मस्ततो जयः ||</p>
@@ -190,6 +189,4 @@ const CitationsPage = () => {
       </footer>
     </div>
   );
-};
-
-export default CitationsPage;
+}
