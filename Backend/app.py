@@ -7,8 +7,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 import torch
 import pdfplumber
 import re
-from transformers import pipeline
 import warnings
+from nltk.tokenize import sent_tokenize
+import numpy as np
 
 # Suppress FutureWarnings
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -27,14 +28,70 @@ with open('content_cache.pkl', 'rb') as f:
 
 with open('embeddings_cache.pkl', 'rb') as f:
     embeddings_cache = pickle.load(f)
-  
-summarizer = pipeline(
-    "summarization", 
-    model="sshleifer/distilbart-cnn-12-6"
-)
 
-def get_summary(text):
-    summary = summarizer(text, max_length=700, min_length=250, do_sample=False, truncation=True,clean_up_tokenization_spaces=True)
+
+def remove_incomplete_sentences(text):
+    # Split text into sentences
+    sentences = sent_tokenize(text)
+    
+    # Define a filter for complete sentences
+    cleaned_sentences = []
+    for sentence in sentences:
+        # Rule: Sentence must end with '.', '!', or '?' and have more than 3 words
+        if sentence.endswith(('.', '!', '?')) and len(sentence.split()) > 3:
+            cleaned_sentences.append(sentence)
+    
+    # Rejoin cleaned sentences into a paragraph
+    cleaned_text = ' '.join(cleaned_sentences)
+    return cleaned_text
+
+def format_summary_as_paragraphs(summary, sentences_per_paragraph):
+    # Tokenize the summary into sentences
+    sentences = sent_tokenize(summary)
+    
+    # Group sentences into paragraphs
+    paragraphs = []
+    for i in range(0, len(sentences), sentences_per_paragraph):
+        paragraph = ' '.join(sentences[i:i + sentences_per_paragraph])
+        paragraphs.append(paragraph)
+    return paragraphs
+
+def extractive_summary(text,percentage):
+    # Split the text into sentences
+    sentences = text.split('. ')
+    max_sentences = int(len(sentences)*(percentage/100))
+    if len(sentences) <= max_sentences:
+        return text  # No summarization needed
+
+    print("Max Sentences : ",max_sentences)
+    # Tokenize and encode each sentence
+    sentence_embeddings = []
+    for sentence in sentences:
+        inputs = tokenizer(sentence, return_tensors="pt", padding=True, truncation=True, max_length=512)
+        with torch.no_grad():
+            outputs = model(**inputs)
+        # Extract CLS token embedding (first token in the sequence)
+        cls_embedding = outputs.last_hidden_state[:, 0, :].squeeze(0).numpy()
+        sentence_embeddings.append(cls_embedding)
+
+    # Calculate sentence similarities
+    sentence_embeddings = np.vstack(sentence_embeddings)
+    scores = cosine_similarity(sentence_embeddings, sentence_embeddings.mean(axis=0, keepdims=True))
+
+    # Rank sentences by similarity scores
+    ranked_sentences = sorted(
+        enumerate(sentences), key=lambda x: scores[x[0]][0], reverse=True
+    )
+
+    # Select the top N sentences for the summary
+    summary_sentences = [sentences[idx] for idx, _ in ranked_sentences[:max_sentences]]
+    summary = '. '.join(summary_sentences)
+    
+    summary = remove_incomplete_sentences(summary)
+    return summary
+
+def get_summary(text,maxLimit):
+    summary = extractive_summary(text,maxLimit)
     return summary
 
 # embedding generation function
@@ -170,14 +227,17 @@ def search():
     return jsonify(similar_pdfs)
 
 
-@app.route('/judgment-summary', methods=['POST'])
+@app.route('/summary', methods=['POST'])
 def find_summary():
     print("Request arrived summary")
     data = request.json
     text = data.get('text')
-    summary = get_summary(text)
+    para_length = 4
+    percentage = int(data.get('percentage'))
+    summary = get_summary(text,percentage)
+    summary = format_summary_as_paragraphs(summary,para_length)
     print("Request sent summary")
-    return jsonify(summary[0]['summary_text'])
+    return summary
 
 # Define a route to serve the application
 @app.route('/')

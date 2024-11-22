@@ -12,11 +12,13 @@ import GeneratePDF from "./GeneratePdf";
 export default function JudgementDetails() {
   const location = useLocation();
   const { judgement } = location.state;
-  const [summary, setSummary] = useState("");
+  const [summary, setSummary] = useState([]);
   const [showSummary, setShowSummary] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const [maxLines, setMaxLines] = useState(5);
+  const [summaryPercentage,setSummaryPercentage] = useState(5);
+  const [summaryText,setSummaryText] = useState("");
+  const [selectedSectionSummary,setSectionSummary] = useState("")
+  const maxLines = 5;
 
   const [showACT, setShowACT] = useState(false);
   const [showHeadnote, setShowHeadnote] = useState(false);
@@ -37,24 +39,30 @@ export default function JudgementDetails() {
     setShowFullAct(!showFullAct);
   };
 
-  const getSummary = (text) => {
+  const getSummary = (text,section) => {
+    setSectionSummary(section);
+    setSummaryText(text);
     setShowSummary(true);
+  };
+
+  const generateSummary = ()=>{
     setLoading(true);
     axios
-      .post("http://127.0.0.1:5000/judgment-summary", {
-        text: text,
+      .post("http://127.0.0.1:5000/summary", {
+        text: summaryText,
+        percentage:summaryPercentage
       })
       .then((response) => {
         const text_summary = response.data;
+        console.log(text_summary)
         setSummary(text_summary);
-        console.lof(summary);
         setLoading(false);
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
       });
-  };
+  }
 
   const handleCheckboxChange = (component) => {
     switch (component) {
@@ -87,6 +95,14 @@ export default function JudgementDetails() {
     return paragraphs;
   };
 
+  const closeSummary = ()=>{
+    setShowSummary(false);
+    setSummary([]);
+    setSummaryPercentage(25);
+    setSummaryText("");
+    setSectionSummary("Judgement");
+  }
+
   return (
     <div className="results-container">
       <header className="header_result_page">
@@ -107,7 +123,16 @@ export default function JudgementDetails() {
       <div className="judgments-container">
         <div className={showSummary ? "showSummary" : "hideSummary"}>
           <div className="summary-block">
-            <h2>Judgement Summary</h2>
+            <h2>{selectedSectionSummary} Insights</h2>
+            <div className="control-summary-div">
+            <select className="select-percentage" onChange={(e) => setSummaryPercentage(e.target.value)} name="" id="">
+              <option value="0">Percentage of content</option>
+              <option value="25">25%</option>
+              <option value="50">50%</option>
+              <option value="75">75%</option>
+            </select>
+            <button className="gen-summary-btn" onClick={() => generateSummary()}>Apply</button>
+            </div>
             <div className="summary-content">
               {loading ? (
                 <>
@@ -116,12 +141,16 @@ export default function JudgementDetails() {
                   <div class="loader_summary loader_block"></div>
                 </>
               ) : (
-                <p>{summary}</p>
+                <p> 
+                  {summary && summary.map((para, index) => (
+                  <p key={index}>{para}</p>
+                  ))}
+                </p>
               )}
             </div>
             <div className="close-btn-block">
               <button
-                onClick={() => setShowSummary(false)}
+                onClick={()=>closeSummary()}
                 className="close-btn"
               >
                 Close
@@ -140,7 +169,7 @@ export default function JudgementDetails() {
                 <button onClick={() => GeneratePDF(judgement)}>
                   Download PDF
                 </button>
-                <button onClick={() => getSummary(judgement.JUDGMENT)}>
+                <button onClick={() => getSummary(judgement.JUDGMENT,"Judgement")}>
                   Judgement Summary
                 </button>
               </div>
@@ -243,6 +272,9 @@ export default function JudgementDetails() {
             <button className="judgement-read-btn" onClick={toggleAct}>
               {showFullAct ? "Read less" : "Read more"}
             </button>
+            <button className="judgement-read-btn" onClick={() => getSummary(judgement.ACT,"Act")}>
+              Insights
+            </button>
 
             <p
               className="judgement_component"
@@ -260,6 +292,9 @@ export default function JudgementDetails() {
             <button className="judgement-read-btn" onClick={toggleHeadnote}>
               {showFullHeadnote ? "Read less" : "Read more"}
             </button>
+            <button className="judgement-read-btn" onClick={() => getSummary(judgement.HEADNOTE,"Headnote")}>
+              Insights
+            </button>
 
             <p
               className="judgement_component"
@@ -276,6 +311,9 @@ export default function JudgementDetails() {
             </p>
             <button className="judgement-read-btn" onClick={toggleJudgment}>
               {showFullJudgment ? "Read less" : "Read more"}
+            </button>
+            <button className="judgement-read-btn" onClick={() => getSummary(judgement.JUDGMENT,"Judgement")}>
+              Insights
             </button>
           </div>
         )}
