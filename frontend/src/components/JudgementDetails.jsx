@@ -19,6 +19,7 @@ export default function JudgementDetails() {
   const [summaryText,setSummaryText] = useState("");
   const [selectedSectionSummary,setSectionSummary] = useState("")
   const maxLines = 5;
+  const [isInsights,setInsights] = useState(true)
 
   const [showACT, setShowACT] = useState(false);
   const [showHeadnote, setShowHeadnote] = useState(false);
@@ -40,10 +41,19 @@ export default function JudgementDetails() {
   };
 
   const getSummary = (text,section) => {
+    setInsights(false)
     setSectionSummary(section);
     setSummaryText(text);
     setShowSummary(true);
   };
+
+  const getInsights = (text,section) => {
+    setInsights(true)
+    setSectionSummary(section);
+    setSummaryText(text);
+    setShowSummary(true);
+  };
+
 
   const generateSummary = ()=>{
     setLoading(true);
@@ -123,7 +133,7 @@ export default function JudgementDetails() {
       <div className="judgments-container">
         <div className={showSummary ? "showSummary" : "hideSummary"}>
           <div className="summary-block">
-            <h2>{selectedSectionSummary} Insights</h2>
+            <h2>{selectedSectionSummary} {isInsights && "Insights"} {!isInsights && "Summary"}</h2>
             <div className="control-summary-div">
             <select className="select-percentage" onChange={(e) => setSummaryPercentage(e.target.value)} name="" id="">
               <option value="0">Percentage of content</option>
@@ -138,7 +148,7 @@ export default function JudgementDetails() {
                 <>
                   <p>Loading...</p>
                   <br />
-                  <div class="loader_summary loader_block"></div>
+                  <div className="loader_summary loader_block"></div>
                 </>
               ) : (
                 <p> 
@@ -272,7 +282,7 @@ export default function JudgementDetails() {
             <button className="judgement-read-btn" onClick={toggleAct}>
               {showFullAct ? "Read less" : "Read more"}
             </button>
-            <button className="judgement-read-btn" onClick={() => getSummary(judgement.ACT,"Act")}>
+            <button className="judgement-read-btn" onClick={() => getInsights(judgement.ACT,"Act")}>
               Insights
             </button>
 
@@ -292,7 +302,7 @@ export default function JudgementDetails() {
             <button className="judgement-read-btn" onClick={toggleHeadnote}>
               {showFullHeadnote ? "Read less" : "Read more"}
             </button>
-            <button className="judgement-read-btn" onClick={() => getSummary(judgement.HEADNOTE,"Headnote")}>
+            <button className="judgement-read-btn" onClick={() => getInsights(judgement.HEADNOTE,"Headnote")}>
               Insights
             </button>
 
@@ -312,7 +322,7 @@ export default function JudgementDetails() {
             <button className="judgement-read-btn" onClick={toggleJudgment}>
               {showFullJudgment ? "Read less" : "Read more"}
             </button>
-            <button className="judgement-read-btn" onClick={() => getSummary(judgement.JUDGMENT,"Judgement")}>
+            <button className="judgement-read-btn" onClick={() => getInsights(judgement.JUDGMENT,"Judgement")}>
               Insights
             </button>
           </div>

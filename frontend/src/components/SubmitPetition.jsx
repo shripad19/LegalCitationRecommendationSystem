@@ -6,6 +6,7 @@ import "../css/SubmitPetition.css";
 export default function SubmitPetition() {
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [citationInput, setCitationInput] = useState("");
+  const [citationCount,setCitationCount] = useState(null);
   const [file, setFile] = useState(null);
   const [fileAttached, setFileAttached] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +21,11 @@ export default function SubmitPetition() {
   const handleInputChange = (event) => {
     console.log("Citation input changed:", event.target.value);
     setCitationInput(event.target.value);
+  };
+
+  const handleCitationCount = (event) => {
+    console.log("Citation count changed:", event.target.value);
+    setCitationCount(event.target.value);
   };
 
   const handleFileChange = (event) => {
@@ -41,6 +47,7 @@ export default function SubmitPetition() {
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("citationCount",citationCount);
       try {
         const response = await fetch("http://localhost:5000/process-pdf", {
           method: "POST",
@@ -146,6 +153,12 @@ export default function SubmitPetition() {
                   value={citationInput}
                   onChange={handleInputChange}
                   placeholder="Enter Petition Name"
+                />
+                  <input
+                  type="number"
+                  value={citationCount}
+                  onChange={handleCitationCount}
+                  placeholder="Enter No of Citation required"
                 />
                 <input
                   type="file"
