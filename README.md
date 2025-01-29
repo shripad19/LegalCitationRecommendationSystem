@@ -12,17 +12,17 @@ The `AI-Driven Judicial Assistance System` is an intelligent legal research plat
 
 
 ## 🏗️ Tech Stack  
-```yaml
-Frontend: React.js (User Interface)
-Backend: Flask (REST API)
-Machine Learning: BERT (Natural Language Processing)
-Libraries Used:
+
+**Frontend:** React.js (User Interface)
+**Backend:** Flask (REST API)
+**Machine Learning:** BERT (Natural Language Processing)
+**Libraries Used:**
   - Python: NumPy, Pandas, NLTK, Scikit-learn, PyPDF
   - NLP: BERT, NLTK for text processing
   - Frontend: HTML, CSS, JavaScript
   - Backend: Flask, PyPDF for document processing
   - Multilingual Support: Language models for legal text analysis
-```
+
 
 ## 🏗️ Installation & Setup  
 
