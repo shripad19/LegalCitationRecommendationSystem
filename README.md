@@ -24,7 +24,7 @@ The `AI-Driven Judicial Assistance System` is an intelligent legal research plat
   - **NLP:** BERT, NLTK for text processing
   - **Frontend:** HTML, CSS, JavaScript
   - **Backend:** Flask, PyPDF for document processing
-  - **Multilingual Support:** Language models for legal text analysis
+  - **Multilingual Support:** Google Translator API for multilingual support
 
 
 ## 🏗️ Installation & Setup  
