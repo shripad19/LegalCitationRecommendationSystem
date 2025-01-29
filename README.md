@@ -28,12 +28,12 @@ Libraries Used:
 
 1️⃣ **Clone the Repository**
 ```bash
-git clone https://github.com/your-username/AI-Judicial-Assistant.git
-cd AI-Judicial-Assistant
+git clone https://github.com/shripad19/LegalCitationRecommendationSystem
+cd LegalCitation-Recommendation-System
 ```
 2️⃣ **Backend Setup**
 ```bash
-cd backend
+cd Backend
 pip install -r requirements.txt
 python app.py
 ```
