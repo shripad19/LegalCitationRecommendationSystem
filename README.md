@@ -30,11 +30,15 @@ Libraries Used:
 ```bash
 git clone https://github.com/your-username/AI-Judicial-Assistant.git
 cd AI-Judicial-Assistant
+```
 2️⃣ **Backend Setup**
+```bash
 cd backend
 pip install -r requirements.txt
 python app.py
+```
 3️⃣ **Frontend Setup**
+```bash
 cd frontend
 npm install
 npm start
