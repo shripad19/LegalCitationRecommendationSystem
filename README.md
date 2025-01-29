@@ -22,7 +22,7 @@ Libraries Used:
   - Frontend: HTML, CSS, JavaScript
   - Backend: Flask, PyPDF for document processing
   - Multilingual Support: Language models for legal text analysis
-
+```
 
 ## 🏗️ Installation & Setup  
 
@@ -38,6 +38,7 @@ python app.py
 cd frontend
 npm install
 npm start
+```
 
 ## 🎯 Usage
 1. Upload a petition file in PDF format.
